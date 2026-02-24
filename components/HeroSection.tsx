@@ -107,19 +107,16 @@ export default function HeroSection() {
 
         /* LEFT col: normal flow, scrolls away with page */
         .hs-wormhole-col {
-          position: relative;
-          background: #ffffff;
-          height: calc(100vh - 64px);
-          display: flex;
-          align-items: center;
-          justify-content: center;
+        position: relative;
+        background: #ffffff;
+        align-self: stretch;   /* ikut tinggi grid */
         }
-
+        
         /* Canvas fills the left column */
         .hs-wormhole-inner {
             position: absolute;
             inset: 0;
-            animation: wormholeFloat 14s ease-in-out infinite;
+            animation: wormholeFloat 10s ease-in-out infinite;
             transform-origin: 25% 15%;
             will-change: transform;
         }
@@ -392,7 +389,7 @@ export default function HeroSection() {
               <div>
                 <h1 className="hs-headline">The Full Stack Digital Partner</h1>
                 <p className="hs-subtext">
-                  Qleos brings together expert software engineering, stunning web development,
+                  Qleos brings together expert software engineering, web development,
                   and reliable hosting to build, launch, and scale your digital presence.
                   We are your partner from concept to completion.
                 </p>

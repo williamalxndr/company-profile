@@ -7,147 +7,164 @@ export default function ContactSection() {
 
   return (
     <>
-        <style>{`
+      <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,800&display=swap');
 
         .cs-section {
             font-family: 'DM Sans', sans-serif;
             min-height: 100vh;
-            background: radial-gradient(
-                circle at 50% 30%,
-                #fff 0%,
-                #fff 40%,
-                #fff5f5 100%
-            );
+            background: #ffffff;
+            /* Background pattern halus agar tidak flat */
+            background-image: radial-gradient(#dc000005 2px, transparent 2px);
+            background-size: 30px 30px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             overflow: hidden;
-            padding: 6rem 2rem;
+            padding: 4rem 1.5rem;
         }
 
-        /* subtle red glow */
-        .cs-section::after {
-            content: "";
+        /* Dekorasi lingkaran Merah Putih di background */
+        .cs-bg-blob {
             position: absolute;
-            width: 700px;
-            height: 700px;
-            background: radial-gradient(circle, rgba(220,0,0,0.08) 0%, transparent 70%);
-            top: -200px;
-            right: -200px;
-            pointer-events: none;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(220, 0, 0, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 1;
         }
+        .blob-1 { top: -10%; right: -5%; }
+        .blob-2 { bottom: -10%; left: -5%; }
 
-        .cs-content {
+        /* Kotak Estetik Minimalis */
+        .cs-card {
             position: relative;
             z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(220, 0, 0, 0.1);
+            border-radius: 32px;
+            padding: 4rem 2rem;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03);
             text-align: center;
-            gap: 2rem;
-            max-width: 600px;
+            overflow: hidden;
+        }
+
+        /* Aksen Garis Merah Putih di atas kotak */
+        .cs-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, #dc0000 50%, #f0f0f0 50%);
         }
 
         .cs-label {
-            font-size: 1.2rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 0.3em;
             text-transform: uppercase;
-            color: rgba(220,0,0,0.5);
+            color: #dc0000;
+            margin-bottom: 1.5rem;
+            display: block;
         }
 
         .cs-headline {
-            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            font-size: clamp(2.2rem, 5vw, 3.8rem);
             font-weight: 800;
             line-height: 1.1;
-            color: #dc0000;
-            letter-spacing: -0.03em;
+            color: #1a1a1a;
+            letter-spacing: -0.04em;
+            margin-bottom: 1.5rem;
+        }
+
+        .cs-headline span {
+            color: #dc0000; /* Highlight merah pada teks */
         }
 
         .cs-body {
-            font-size: 1rem;
-            color: rgba(120,0,0,0.7);
-            line-height: 1.7;
-            max-width: 420px;
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.6;
+            max-width: 480px;
+            margin: 0 auto 2.5rem auto;
         }
 
-        .cs-contact-items {
+        .cs-footer-info {
             display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
         }
 
-        .cs-contact-item {
+        .cs-info-item {
             display: flex;
             align-items: center;
-            gap: 0.6rem;
-            font-size: 0.9rem;
-            color: rgba(120,0,0,0.75);
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            color: #666;
+            font-weight: 500;
         }
 
         .cs-wa-btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
-            background: linear-gradient(135deg, #dc0000, #b80000);
+            gap: 0.8rem;
+            background: #dc0000;
             color: #fff;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 1rem;
+            padding: 1.2rem 2.8rem;
+            border-radius: 100px;
             font-weight: 700;
             text-decoration: none;
-            padding: 1rem 2.5rem;
-            border-radius: 999px;
-            letter-spacing: 0.01em;
-            transition: all 0.25s ease;
-            box-shadow: 0 8px 32px rgba(220,0,0,0.25);
-            margin-top: 0.5rem;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 10px 25px rgba(220, 0, 0, 0.2);
         }
 
         .cs-wa-btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(220,0,0,0.35);
-        }
-
-        .cs-wa-btn:active {
-            transform: translateY(-1px);
+            transform: translateY(-5px);
+            background: #b80000;
+            box-shadow: 0 15px 30px rgba(220, 0, 0, 0.3);
         }
 
         .cs-wa-icon {
-            width: 22px;
-            height: 22px;
-            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
         }
 
-        @media (max-width: 480px) {
-            .cs-headline { font-size: 2.4rem; }
-            .cs-wa-btn { padding: 0.9rem 2rem; font-size: 0.9rem; }
+        @media (max-width: 600px) {
+            .cs-card { padding: 3rem 1.5rem; border-radius: 24px; }
+            .cs-footer-info { gap: 1rem; flex-direction: column; align-items: center; }
         }
-        `}</style>
+      `}</style>
 
       <section className="cs-section" id="contact">
-        <div className="cs-content">
-          <p className="cs-label">Contact</p>
+        <div className="cs-bg-blob blob-1"></div>
+        <div className="cs-bg-blob blob-2"></div>
 
+        <div className="cs-card">
+          <span className="cs-label">Contact Us</span>
+          
           <h2 className="cs-headline">
-            Let's Build<br />Something Great
+            Let's Build Something <span>Great.</span>
           </h2>
 
           <p className="cs-body">
-            Have a project in mind? We'd love to hear about it.
-            Chat with us directly on WhatsApp.
+            Have a project in mind? We'd love to hear about it. 
+            Chat with us directly to get started.
           </p>
 
-          <div className="cs-contact-items">
-            <div className="cs-contact-item">
-              <span>📍</span>
-              <span>Jakarta, Indonesia</span>
+          <div className="cs-footer-info">
+            <div className="cs-info-item">
+              <span style={{color: '#dc0000'}}>📍</span> Jakarta, Indonesia
             </div>
-            <div className="cs-contact-item">
-              <span>✉️</span>
-              <span>qleos.lab@gmail.com</span>
+            <div className="cs-info-item">
+              <span style={{color: '#dc0000'}}>✉️</span> qleos.lab@gmail.com
             </div>
           </div>
 
@@ -157,12 +174,11 @@ export default function ContactSection() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            {/* WhatsApp SVG icon */}
             <svg className="cs-wa-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M16 3C8.82 3 3 8.82 3 16c0 2.48.69 4.8 1.89 6.78L3 29l6.39-1.87A13 13 0 0 0 16 29c7.18 0 13-5.82 13-13S23.18 3 16 3Z" fill="white" fillOpacity="0.2"/>
               <path d="M16 3C8.82 3 3 8.82 3 16c0 2.48.69 4.8 1.89 6.78L3 29l6.39-1.87A13 13 0 0 0 16 29c7.18 0 13-5.82 13-13S23.18 3 16 3Zm6.28 18.3c-.26.73-1.52 1.4-2.08 1.48-.56.08-1.08.37-3.65-.76-3.08-1.35-5.06-4.5-5.21-4.71-.15-.21-1.24-1.65-1.24-3.14 0-1.5.78-2.23 1.06-2.54.27-.3.6-.38.8-.38l.57.01c.18 0 .43-.07.67.51.26.62.87 2.12.95 2.28.08.15.13.33.03.54-.1.2-.15.33-.3.51-.14.18-.3.4-.43.54-.14.15-.29.31-.12.61.17.3.74 1.22 1.59 1.98 1.09.97 2.01 1.27 2.31 1.41.3.15.47.12.64-.07.18-.2.74-.86.94-1.16.2-.3.4-.25.67-.15.27.1 1.74.82 2.04.97.3.15.5.22.57.34.08.13.08.73-.18 1.46Z" fill="white"/>
             </svg>
-            Chat on WhatsApp
+            Talk to us
           </a>
         </div>
       </section>

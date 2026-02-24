@@ -47,19 +47,40 @@ export default function WormholeCanvas({ progress }: WormholeCanvasProps) {
     const TUBE_R = 0.6; // thicker tube
     const SPINE_AMP = 0.65;
     const SPINE_FREQ = 2.0;
-    const L_MAX = 5.5;  // much longer snake
+    const L_MAX = 9.5;  // much longer snake
 
     type Vec3 = [number, number, number];
 
-    // Build spine points (center axis of the tube)
+
     const spinePoints: Vec3[] = [];
+
     for (let i = 0; i <= SEG_L; i++) {
       const t = i / SEG_L; // 0..1
       const y = -L_MAX + 2 * L_MAX * t;
-      // sinusoidal X offset — the "snake" shape
-      const x = SPINE_AMP * Math.sin(t * Math.PI * SPINE_FREQ);
-      // slight Z wave for 3D feel (half frequency, quarter phase)
-      const z = SPINE_AMP * 0.4 * Math.sin(t * Math.PI * SPINE_FREQ * 0.7 + 1.2);
+
+      // non-linear shaping biar lebih organik
+      const shapedT = Math.pow(t, 1.6);
+
+      const baseX =
+        - SPINE_AMP *
+        1.7 *
+        Math.sin(shapedT * Math.PI * SPINE_FREQ);
+
+      // drift kanan di atas → kiri di bawah
+      // t=0 (atas) = positif
+      // t=1 (bawah) = negatif
+      const directionalDrift = 2.4 * (0.5 - t);
+
+      const taper = 1 - 0.5 * t;
+
+      const x = baseX * taper + directionalDrift;
+
+      const z =
+        SPINE_AMP *
+        0.6 *
+        taper *
+        Math.sin(shapedT * Math.PI * SPINE_FREQ * 0.8 + 1.2);
+
       spinePoints.push([x, y, z]);
     }
 
@@ -226,8 +247,22 @@ export default function WormholeCanvas({ progress }: WormholeCanvasProps) {
   }, []);
 
   return (
-    <div style={{ width:"100%", height:"100%", background:"#ffffff", overflow:"hidden" }}>
-      <canvas ref={canvasRef} style={{ display:"block", width:"100%", height:"100%" }} />
-    </div>
-  );
+  <div
+    style={{
+      width: "100%",
+      height: "100%",
+      background: "#ffffff",
+      overflow: "hidden",
+      WebkitMaskImage:
+        "linear-gradient(to bottom, black 70%, rgba(0,0,0,0) 100%)",
+      maskImage:
+        "linear-gradient(to bottom, black 70%, rgba(0,0,0,0) 100%)",
+    }}
+  >
+    <canvas
+      ref={canvasRef}
+      style={{ display: "block", width: "100%", height: "100%" }}
+    />
+  </div>
+);
 }
