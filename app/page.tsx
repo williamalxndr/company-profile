@@ -1,65 +1,96 @@
-import Image from "next/image";
+"use client";
+
+import Navbar from "@/components/Navbar";
+import HeroSection from "@/components/HeroSection";
+import TeamSection from "@/components/TeamSection";
+import ContactSection from "@/components/ContactSection";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <>
+      <style jsx global>{`
+        html, body {
+          margin: 0;
+          padding: 0;
+          background-color: #000;
+        }
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-30px); }
+        }
+        
+        @keyframes float-slow {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-50px) rotate(180deg); }
+        }
+
+        .bg-circle {
+          position: fixed;
+          pointer-events: none;
+          z-index: -10;
+          border-radius: 50%;
+          filter: blur(60px);
+        }
+
+        .bg-circle-1 {
+          top: 10%;
+          left: 5%;
+          width: 500px;
+          height: 500px;
+          background: radial-gradient(circle, rgba(0,188,212,0.25) 0%, rgba(0,188,212,0.05) 70%, transparent 100%);
+          animation: float 6s ease-in-out infinite;
+        }
+
+        .bg-circle-2 {
+          top: 50%;
+          right: 8%;
+          width: 400px;
+          height: 400px;
+          background: radial-gradient(circle, rgba(0,188,212,0.2) 0%, rgba(0,188,212,0.05) 70%, transparent 100%);
+          animation: float-slow 8s ease-in-out infinite;
+        }
+
+        .bg-circle-3 {
+          bottom: 10%;
+          left: 15%;
+          width: 350px;
+          height: 350px;
+          background: radial-gradient(circle, rgba(0,188,212,0.2) 0%, rgba(0,188,212,0.05) 70%, transparent 100%);
+          animation: float 7s ease-in-out infinite;
+          animation-delay: 1s;
+        }
+
+        .bg-circle-2 {
+          top: 50%;
+          right: 8%;
+          width: 250px;
+          height: 250px;
+          background: radial-gradient(circle, rgba(0,188,212,0.3) 0%, rgba(0,188,212,0.08) 70%, transparent 100%);
+          animation: float-slow 8s ease-in-out infinite;
+        }
+
+        .bg-circle-3 {
+          bottom: 10%;
+          left: 15%;
+          width: 200px;
+          height: 200px;
+          background: radial-gradient(circle, rgba(0,188,212,0.3) 0%, rgba(0,188,212,0.08) 70%, transparent 100%);
+          animation: float 7s ease-in-out infinite;
+          animation-delay: 1s;
+        }
+      `}</style>
+
+      <div className="bg-circle bg-circle-1" />
+      <div className="bg-circle bg-circle-2" />
+      <div className="bg-circle bg-circle-3" />
+
+      {/* Main Content */}
+      <Navbar />
+      <HeroSection />
+      <TeamSection />
+      <ContactSection />
+    </>
   );
 }
