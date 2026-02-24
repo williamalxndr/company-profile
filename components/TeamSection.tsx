@@ -104,7 +104,7 @@ export default function TeamSection() {
         }
 
         .tm-label {
-          font-size: 0.72rem;
+          font-size: 1.2rem;
           font-weight: 700;
           letter-spacing: 0.15em;
           text-transform: uppercase;

@@ -16,7 +16,7 @@ export default function Navbar() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600;700&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap');
 
         .qleos-nav {
@@ -29,150 +29,136 @@ export default function Navbar() {
           align-items: center;
           justify-content: space-between;
           padding: 0 2.5rem;
-          height: 64px;
+          height: 72px;
           background: rgba(255, 255, 255, 0.92);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
+          backdrop-filter: blur(14px);
           border-bottom: 1px solid rgba(220, 0, 0, 0.08);
           font-family: 'DM Sans', sans-serif;
         }
 
-        /* Logo */
         .qleos-logo {
           display: flex;
           align-items: center;
           text-decoration: none;
-          flex-shrink: 0;
         }
 
         .qleos-logo svg {
-          height: 28px;
-          width: auto;
+          height: 36px;
         }
 
-        /* Nav links */
+        /* DESKTOP LINKS */
+
         .qleos-links {
           display: flex;
           align-items: center;
-          gap: 2.5rem;
+          gap: 2.2rem;
           list-style: none;
           margin: 0;
           padding: 0;
         }
 
         .qleos-links a {
-          font-size: 0.875rem;
-          font-weight: 500;
+          position: relative;
+          font-size: 0.95rem;
+          font-weight: 600;
           color: #1a1a1a;
           text-decoration: none;
-          letter-spacing: 0.01em;
-          position: relative;
-          transition: color 0.2s ease;
+          padding: 8px 16px;
+          border-radius: 999px;
+          overflow: hidden;
+          transition: color 0.3s ease, transform 0.2s ease;
         }
 
-        .qleos-links a::after {
-          content: '';
+        /* Animated red fill */
+        .qleos-links a::before {
+          content: "";
           position: absolute;
-          bottom: -3px;
-          left: 0;
-          right: 0;
-          height: 1.5px;
-          background: #dc0000;
+          inset: 0;
+          background: linear-gradient(90deg, #dc0000, #ff2a2a, #dc0000);
+          background-size: 200% 100%;
           transform: scaleX(0);
           transform-origin: left;
-          transition: transform 0.25s ease;
+          transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+          border-radius: 999px;
+          z-index: -1;
         }
 
-        .qleos-links a:hover {
-          color: #dc0000;
-        }
-
-        .qleos-links a:hover::after {
+        .qleos-links a:hover::before {
           transform: scaleX(1);
         }
 
-        /* Right side */
+        .qleos-links a:hover {
+          color: #ffffff;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 22px rgba(220, 0, 0, 0.28);
+        }
+
+        /* ACTION BUTTONS */
+
         .qleos-actions {
           display: flex;
           align-items: center;
           gap: 0.6rem;
-          flex-shrink: 0;
         }
 
-        /* Contact button */
         .qleos-contact-btn {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          height: 42px;
-          padding: 0 1.4rem;
+          height: 46px;
+          padding: 0 1.6rem;
           background: #dc0000;
           color: #fff;
-          font-family: 'DM Sans', sans-serif;
-          font-size: 0.875rem;
+          font-size: 0.95rem;
           font-weight: 600;
           text-decoration: none;
           border-radius: 999px;
-          border: none;
-          cursor: pointer;
-          letter-spacing: 0.01em;
-          white-space: nowrap;
-          transition: background 0.2s ease, transform 0.15s ease;
+          transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
         }
 
         .qleos-contact-btn:hover {
           background: #b80000;
-          transform: translateY(-1px);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 22px rgba(220, 0, 0, 0.35);
         }
 
-        .qleos-contact-btn:active {
-          transform: translateY(0);
-        }
-
-        /* Grid / apps icon button */
         .qleos-grid-btn {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 42px;
-          height: 42px;
+          width: 46px;
+          height: 46px;
           background: #dc0000;
           border: none;
-          border-radius: 10px;
+          border-radius: 12px;
           cursor: pointer;
-          transition: background 0.2s ease, transform 0.15s ease;
-          flex-shrink: 0;
-          margin-left: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
         }
 
         .qleos-grid-btn:hover {
           background: #b80000;
-          transform: translateY(-1px);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 22px rgba(220, 0, 0, 0.35);
         }
 
         .qleos-grid-btn svg {
-          width: 16px;
-          height: 16px;
+          width: 18px;
+          height: 18px;
           fill: #fff;
         }
 
-        /* Mobile hamburger */
+        /* HAMBURGER */
+
         .qleos-hamburger {
           display: none;
           flex-direction: column;
-          justify-content: center;
-          align-items: center;
           gap: 5px;
-          width: 38px;
-          height: 38px;
           background: transparent;
           border: none;
           cursor: pointer;
-          padding: 0;
         }
 
         .qleos-hamburger span {
-          display: block;
           width: 22px;
           height: 2px;
           background: #1a1a1a;
@@ -183,31 +169,26 @@ export default function Navbar() {
         .qleos-hamburger.open span:nth-child(1) {
           transform: translateY(7px) rotate(45deg);
         }
+
         .qleos-hamburger.open span:nth-child(2) {
           opacity: 0;
         }
+
         .qleos-hamburger.open span:nth-child(3) {
           transform: translateY(-7px) rotate(-45deg);
         }
 
-        /* Mobile menu drawer */
+        /* MOBILE */
+
         .qleos-mobile-menu {
           display: none;
           position: fixed;
-          top: 64px;
+          top: 72px;
           left: 0;
           right: 0;
-          background: #fff;
+          background: #ffffff;
+          padding: 1.8rem 2.5rem;
           border-bottom: 1px solid rgba(220, 0, 0, 0.12);
-          padding: 1.5rem 2.5rem;
-          z-index: 99;
-          font-family: 'DM Sans', sans-serif;
-          animation: slideDown 0.2s ease;
-        }
-
-        @keyframes slideDown {
-          from { opacity: 0; transform: translateY(-8px); }
-          to   { opacity: 1; transform: translateY(0); }
         }
 
         .qleos-mobile-menu.open {
@@ -216,19 +197,17 @@ export default function Navbar() {
 
         .qleos-mobile-links {
           list-style: none;
-          margin: 0;
           padding: 0;
+          margin: 0;
           display: flex;
           flex-direction: column;
-          gap: 1rem;
+          gap: 1.2rem;
         }
 
         .qleos-mobile-links a {
-          font-size: 1rem;
           font-weight: 600;
-          color: #1a1a1a;
           text-decoration: none;
-          letter-spacing: 0.01em;
+          color: #1a1a1a;
           transition: color 0.2s ease;
         }
 
@@ -238,12 +217,8 @@ export default function Navbar() {
 
         .qleos-mobile-actions {
           margin-top: 1.5rem;
-          display: flex;
-          gap: 0.75rem;
-          align-items: center;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
           .qleos-links {
             display: none;
@@ -255,15 +230,14 @@ export default function Navbar() {
       `}</style>
 
       <nav className="qleos-nav">
-        {/* Logo */}
-        <Link href="/" className="qleos-logo" aria-label="Qleos Home">
-          <svg viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {/* Q */}
-            <text x="5" y="28" fontFamily="'Zen Dots', sans-serif" fontWeight="400" fontSize="28" fill="#dc0000">QLEOS</text>
+        <Link href="/" className="qleos-logo">
+          <svg viewBox="0 0 180 46">
+            <text x="5" y="34" fontFamily="'Zen Dots', sans-serif" fontSize="34" fill="#dc0000">
+              QLEOS
+            </text>
           </svg>
         </Link>
 
-        {/* Desktop nav links */}
         <ul className="qleos-links">
           {navLinks.map((link) => (
             <li key={link.href}>
@@ -272,40 +246,30 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Right side actions */}
         <div className="qleos-actions">
           <Link href="/contact" className="qleos-contact-btn">
             Contact
           </Link>
-          <button className="qleos-grid-btn" aria-label="Apps menu">
-            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-              <rect x="0" y="0" width="4" height="4" rx="1"/>
-              <rect x="6" y="0" width="4" height="4" rx="1"/>
-              <rect x="12" y="0" width="4" height="4" rx="1"/>
-              <rect x="0" y="6" width="4" height="4" rx="1"/>
-              <rect x="6" y="6" width="4" height="4" rx="1"/>
-              <rect x="12" y="6" width="4" height="4" rx="1"/>
-              <rect x="0" y="12" width="4" height="4" rx="1"/>
-              <rect x="6" y="12" width="4" height="4" rx="1"/>
-              <rect x="12" y="12" width="4" height="4" rx="1"/>
+
+          <button className="qleos-grid-btn">
+            <svg viewBox="0 0 16 16">
+              {[0,6,12].map(x =>
+                [0,6,12].map(y => (
+                  <rect key={x+y} x={x} y={y} width="4" height="4" rx="1"/>
+                ))
+              )}
             </svg>
           </button>
 
-          {/* Mobile hamburger */}
           <button
             className={`qleos-hamburger ${menuOpen ? "open" : ""}`}
-            onClick={() => setMenuOpen((prev) => !prev)}
-            aria-label="Toggle menu"
-            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen(!menuOpen)}
           >
-            <span />
-            <span />
-            <span />
+            <span /><span /><span />
           </button>
         </div>
       </nav>
 
-      {/* Mobile dropdown menu */}
       <div className={`qleos-mobile-menu ${menuOpen ? "open" : ""}`}>
         <ul className="qleos-mobile-links">
           {navLinks.map((link) => (
@@ -316,8 +280,9 @@ export default function Navbar() {
             </li>
           ))}
         </ul>
+
         <div className="qleos-mobile-actions">
-          <Link href="/contact" className="qleos-contact-btn" onClick={() => setMenuOpen(false)}>
+          <Link href="/contact" className="qleos-contact-btn">
             Contact
           </Link>
         </div>
