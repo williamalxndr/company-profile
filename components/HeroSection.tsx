@@ -117,10 +117,24 @@ export default function HeroSection() {
 
         /* Canvas fills the left column */
         .hs-wormhole-inner {
-          position: absolute;
-          inset: 0;
+            position: absolute;
+            inset: 0;
+            animation: wormholeFloat 14s ease-in-out infinite;
+            transform-origin: 25% 15%;
+            will-change: transform;
         }
 
+        @keyframes wormholeFloat {
+        0% {
+            transform: rotate(-2deg) translateY(0px) translateX(0px);
+        }
+        50% {
+            transform: rotate(2deg) translateY(-20px) translateX(10px);
+        }
+        100% {
+            transform: rotate(-2deg) translateY(0px) translateX(0px);
+        }
+        }
         /* scroll-progress label overlaid on the wormhole */
         .hs-wormhole-label {
           position: absolute;
