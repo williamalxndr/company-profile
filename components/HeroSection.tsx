@@ -3,8 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 
-// Dynamically import Three.js component — SSR must be disabled
-const WormholeCanvas = dynamic<{ progress: number }>(
+const Canvas = dynamic<{ progress: number }>(
   () => import("./Canvas"),
   { ssr: false }
 );
@@ -80,7 +79,6 @@ export default function HeroSection() {
       const p = Math.max(0, Math.min(1, -rect.top / scrollable));
       setProgress(p);
     };
-
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
@@ -94,78 +92,38 @@ export default function HeroSection() {
 
         .hs-section {
           font-family: 'DM Sans', sans-serif;
-          background: #fff;
           position: relative;
         }
 
-        /* Outer wrapper: two columns side by side */
         .hs-layout {
           display: grid;
           grid-template-columns: 38fr 62fr;
           align-items: start;
+          /* lighter grid background */
+          background-color: #f9f9fa;
+          background-image:
+            linear-gradient(rgba(180,180,195,0.15) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(180,180,195,0.15) 1px, transparent 1px);
+          background-size: 40px 40px;
         }
 
-        /* LEFT col: normal flow, scrolls away with page */
+        /* LEFT col */
         .hs-wormhole-col {
-        position: relative;
-        background: #ffffff;
-        align-self: stretch;   /* ikut tinggi grid */
+          position: relative;
+          background: transparent;
+          align-self: stretch;
         }
-        
-        /* Canvas fills the left column */
         .hs-wormhole-inner {
-            position: absolute;
-            inset: 0;
-            animation: wormholeFloat 10s ease-in-out infinite;
-            transform-origin: 25% 15%;
-            will-change: transform;
-        }
-
-        @keyframes wormholeFloat {
-        0% {
-            transform: rotate(-2deg) translateY(0px) translateX(0px);
-        }
-        50% {
-            transform: rotate(2deg) translateY(-20px) translateX(10px);
-        }
-        100% {
-            transform: rotate(-2deg) translateY(0px) translateX(0px);
-        }
-        }
-        /* scroll-progress label overlaid on the wormhole */
-        .hs-wormhole-label {
           position: absolute;
-          bottom: 2rem;
-          left: 50%;
-          transform: translateX(-50%);
-          z-index: 3;
-          font-size: 0.68rem;
-          font-weight: 700;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: rgba(255,60,60,0.55);
-          white-space: nowrap;
-          transition: opacity 0.4s;
+          inset: 0;
         }
 
-        /* progress bar at bottom of wormhole */
-        .hs-wormhole-progress {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          height: 2px;
-          background: linear-gradient(90deg, #dc0000, #ff4444);
-          z-index: 4;
-          transition: width 0.1s linear;
-          box-shadow: 0 0 8px rgba(220,0,0,0.8);
-        }
-
-        /* ── Right text column ─────────────────────────────── */
+        /* RIGHT col */
         .hs-text-col {
           position: relative;
-          background: #fff;
+          background: transparent;
           padding-top: 80px;
-          padding-bottom: 120px;
+          padding-bottom: 40px;
         }
 
         .hs-text-inner {
@@ -175,7 +133,47 @@ export default function HeroSection() {
           gap: 6rem;
         }
 
-        /* ── Block styles ── */
+        /* ── Intro block with left accent bar ── */
+        .hs-intro-block {
+          position: relative;
+          padding-left: 1.75rem;
+        }
+        .hs-intro-block::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0.25em;
+          bottom: 0.25em;
+          width: 3px;
+          background: linear-gradient(to bottom, #dc0000, rgba(220,0,0,0.08));
+          border-radius: 2px;
+        }
+
+        /* Location pill */
+        .hs-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.35rem;
+          font-size: 0.68rem;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: #dc0000;
+          background: rgba(220,0,0,0.05);
+          border: 1px solid rgba(220,0,0,0.15);
+          border-radius: 100px;
+          padding: 0.3em 0.9em;
+          margin-bottom: 1.35rem;
+        }
+        .hs-pill-dot {
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background: #dc0000;
+          opacity: 0.7;
+          flex-shrink: 0;
+        }
+
         .hs-headline {
           font-size: clamp(3rem, 5vw, 5rem);
           font-weight: 800;
@@ -193,7 +191,9 @@ export default function HeroSection() {
           max-width: 520px;
         }
 
+        /* ── Accordion ── */
         .hs-accordion { display: flex; flex-direction: column; margin-top: 3.5rem; }
+        .hs-accordion-item { border-bottom: 1px solid rgba(220,0,0,0.12); }
         .hs-accordion-trigger {
           display: flex;
           align-items: center;
@@ -207,7 +207,7 @@ export default function HeroSection() {
           gap: 1rem;
         }
         .hs-accordion-title {
-          font-size: 1.1rem;
+          font-size: 1.05rem;
           font-weight: 600;
           color: #dc0000;
           letter-spacing: 0.01em;
@@ -238,44 +238,49 @@ export default function HeroSection() {
         .hs-accordion-item.active .hs-accordion-trigger::before {
           content: '';
           position: absolute;
-          left: -4rem;
+          left: -1.75rem;
           top: 0; bottom: 0;
           width: 3px;
           background: #dc0000;
           border-radius: 0 2px 2px 0;
         }
 
+        /* ── Services block — frosted card ── */
+        .hs-block-divider {
+          background: rgba(255,255,255,0.6);
+          border-radius: 16px;
+          padding: 2.5rem;
+          border: 1px solid rgba(220,0,0,0.08);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          box-shadow: 0 2px 24px rgba(220,0,0,0.04);
+        }
+
         .hs-block-label {
-          font-size: 1.2rem;
+          font-size: 0.72rem;
           font-weight: 700;
-          letter-spacing: 0.15em;
+          letter-spacing: 0.18em;
           text-transform: uppercase;
           color: rgba(220,0,0,0.4);
-          margin-bottom: 1rem;
+          margin-bottom: 1.25rem;
         }
-
         .hs-block-headline {
-          font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+          font-size: clamp(2rem, 3vw, 3rem);
           font-weight: 800;
-          line-height: 1.2;
+          line-height: 1.15;
           color: #dc0000;
           letter-spacing: -0.02em;
-          margin-bottom: 0.75rem;
+          margin-bottom: 1rem;
         }
-
         .hs-block-body {
-          font-size: 0.95rem;
+          font-size: 1rem;
           color: rgba(180,0,0,0.6);
-          line-height: 1.7;
+          line-height: 1.75;
           max-width: 500px;
-          margin-bottom: 2rem;
+          margin-bottom: 2.5rem;
         }
 
-        .hs-block-divider {
-          border-top: 1px solid rgba(220,0,0,0.1);
-          padding-top: 0.5rem;
-        }
-
+        /* ── Services grid ── */
         .hs-services-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -285,9 +290,8 @@ export default function HeroSection() {
           border-radius: 12px;
           overflow: hidden;
         }
-
         .hs-service-card {
-          background: #fff;
+          background: rgba(255,255,255,0.85);
           padding: 1.4rem 1.5rem;
           display: flex;
           flex-direction: column;
@@ -295,20 +299,16 @@ export default function HeroSection() {
           cursor: pointer;
           transition: background 0.2s;
         }
-
-        .hs-service-card:hover { background: rgba(220,0,0,0.03); }
-        .hs-service-card.expanded { background: rgba(220,0,0,0.04); }
-
+        .hs-service-card:hover { background: rgba(255,255,255,0.95); }
+        .hs-service-card.expanded { background: rgba(255,255,255,0.95); }
         .hs-service-header {
           display: flex;
           align-items: center;
           justify-content: space-between;
           gap: 0.5rem;
         }
-
         .hs-service-icon { font-size: 1.4rem; margin-bottom: 0.25rem; }
         .hs-service-name { font-size: 0.9rem; font-weight: 700; color: #dc0000; }
-
         .hs-service-chevron {
           width: 16px; height: 16px;
           color: #dc0000;
@@ -316,13 +316,11 @@ export default function HeroSection() {
           transition: transform 0.25s ease;
         }
         .hs-service-chevron.open { transform: rotate(180deg); }
-
         .hs-service-desc {
           font-size: 0.8rem;
           color: rgba(160,0,0,0.6);
           line-height: 1.55;
         }
-
         .hs-service-expand {
           display: grid;
           grid-template-rows: 0fr;
@@ -331,7 +329,6 @@ export default function HeroSection() {
         }
         .hs-service-expand.open { grid-template-rows: 1fr; }
         .hs-service-expand-inner { overflow: hidden; }
-
         .hs-service-details {
           list-style: none;
           display: flex;
@@ -341,7 +338,6 @@ export default function HeroSection() {
           border-top: 1px solid rgba(220,0,0,0.1);
           margin-top: 0.5rem;
         }
-
         .hs-service-details li {
           display: flex;
           align-items: flex-start;
@@ -350,7 +346,6 @@ export default function HeroSection() {
           color: rgba(140,0,0,0.7);
           line-height: 1.5;
         }
-
         .hs-service-details li::before {
           content: "→";
           color: #dc0000;
@@ -360,33 +355,41 @@ export default function HeroSection() {
 
         @media (max-width: 900px) {
           .hs-layout { grid-template-columns: 1fr; }
-          .hs-wormhole-col { height: 50vh; position: relative; top: 0; }
+          .hs-wormhole-col { height: 60vh; align-self: auto; }
+          .hs-wormhole-inner { position: absolute; inset: 0; }
           .hs-text-inner { padding: 2.5rem 1.5rem; gap: 3rem; }
-          .hs-accordion-item.active .hs-accordion-trigger::before { left: -1.5rem; }
+          .hs-intro-block { padding-left: 1.25rem; }
+          .hs-accordion-item.active .hs-accordion-trigger::before { left: -1.25rem; }
           .hs-services-grid { grid-template-columns: 1fr; }
+          .hs-block-divider { padding: 1.75rem; }
         }
         @media (max-width: 480px) {
           .hs-headline { font-size: 1.9rem; }
           .hs-text-inner { padding: 2rem 1.25rem; }
+          .hs-block-divider { padding: 1.25rem; border-radius: 12px; }
         }
       `}</style>
 
       <section className="hs-section" ref={sectionRef}>
         <div className="hs-layout">
 
-          {/* ── LEFT: Wormhole sticky, color driven by scroll ── */}
+          {/* LEFT: Canvas */}
           <div className="hs-wormhole-col">
             <div className="hs-wormhole-inner">
-              <WormholeCanvas progress={progress} />
+              <Canvas progress={progress} />
             </div>
           </div>
 
-          {/* ── RIGHT: Text scrolls naturally ───────────────── */}
+          {/* RIGHT: Text */}
           <div className="hs-text-col">
             <div className="hs-text-inner">
 
-              {/* Block 1: Hero */}
-              <div>
+              {/* Intro block */}
+              <div className="hs-intro-block">
+                <div className="hs-pill">
+                  <span className="hs-pill-dot" />
+                  Jakarta, Indonesia
+                </div>
                 <h1 className="hs-headline">The Full Stack Digital Partner</h1>
                 <p className="hs-subtext">
                   Qleos brings together expert software engineering, web development,
@@ -415,12 +418,12 @@ export default function HeroSection() {
                 </div>
               </div>
 
-              {/* Block 2: Services */}
+              {/* Services block */}
               <div className="hs-block-divider">
                 <p className="hs-block-label">Services</p>
                 <h2 className="hs-block-headline">What We Build</h2>
                 <p className="hs-block-body">
-                  From company profiles to ERP systems <br /> We cover the full spectrum of digital products your business needs.
+                  From company profiles to ERP systems — we cover the full spectrum of digital products your business needs.
                 </p>
                 <div className="hs-services-grid">
                   {services.map((s) => {
@@ -455,12 +458,11 @@ export default function HeroSection() {
                 </div>
               </div>
 
-              {/* spacer */}
-              <div style={{ minHeight: "30vh" }} />
+              <div style={{ minHeight: "4vh" }} />
             </div>
-          </div>{/* end hs-sticky */}
+          </div>
 
-        </div>{/* end hs-layout */}
+        </div>
       </section>
     </>
   );
