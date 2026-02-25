@@ -286,7 +286,7 @@ function CircuitCanvas({ progress }: CircuitCanvasProps) {
 
     if (energizedCount > 0) {
       // t goes 0→1 looping, maps to position within energized segments
-      const t = (ts * 0.00015 * (1 + p * 0.5)) % 1;
+      const t = (ts * 0.00015) % 1;
       const rawIdx = t * energizedCount;
       const segIdx = Math.floor(rawIdx) % energizedCount;
       const segT = rawIdx - Math.floor(rawIdx);
@@ -511,9 +511,10 @@ export default function TeamSection() {
       if (!el) return;
       const rect = el.getBoundingClientRect();
       const viewH = window.innerHeight;
-      // Start from when section enters viewport bottom, end when section top hits viewport top
-      const total = el.offsetHeight + viewH;
-      const gone = viewH - rect.top;
+      // Start animating 1 full viewport BEFORE section enters screen
+      // so animation is already running when user scrolls into view
+      const total = el.offsetHeight + viewH * 2;
+      const gone = viewH * 2 - rect.top;
       setScrollProgress(Math.max(0, Math.min(1, gone / total)));
     };
     window.addEventListener("scroll", onScroll, { passive: true });
