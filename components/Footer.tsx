@@ -118,14 +118,11 @@ export default function Footer() {
           align-items: center;
           gap: 0.35rem;
           font-size: 0.82rem;
-          color: rgba(0,0,0,0.45);
           letter-spacing: 0.04em;
         }
 
-        .ft-location span:first-child {
-          font-size: 0.9rem;
-          opacity: 1 !important;
-          filter: none !important;
+        .ft-location-text {
+          color: rgba(0,0,0,0.4);
         }
 
         .ft-location-dot {
@@ -265,11 +262,11 @@ export default function Footer() {
 
           <div className="ft-bottom">
             <p className="ft-copy">
-              © {new Date().getFullYear()} <strong>Qleos</strong>. All rights reserved.
+              © {new Date().getFullYear()} <strong style={{fontFamily: "'Zen Dots', sans-serif", fontWeight: 400}}>QLEOS</strong>. All rights reserved.
             </p>
             <div className="ft-location">
-              <span style={{filter: 'none', opacity: 1}}>📍</span>
-              <span>Jakarta, Indonesia</span>
+              <span>📍</span>
+              <span className="ft-location-text">Jakarta, Indonesia</span>
             </div>
             <div className="ft-socials">
               {socials.map((s) => (
