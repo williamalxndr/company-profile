@@ -9,9 +9,10 @@ const Canvas = dynamic<{ progress: number }>(
 );
 
 const accordionItems = [
-  { id: 1, title: "About", content: "Software company located in Jakarta, with a vision to bring expert software engineering results to businesses across Southeast Asia." },
-  { id: 2, title: "Services", content: "We design, build, and host digital products — from company profiles to full-scale ERP systems and custom platforms." },
-  { id: 3, title: "Vision", content: "To become the leading digital partner in Southeast Asia, delivering world-class software solutions with local expertise." },
+  { id: 1, title: "Who We Are", content: "Qleos is a software house company based in Jakarta. Built by engineers who believe great software should be accessible to every business", link: null },
+  { id: 2, title: "What We Do", content: "We design, build, and maintain digital products end-to-end. From company profile to a full-scale ERP system", link: "Our products ↗" },
+  { id: 3, title: "Who We Serve", content: "Startups finding their footing, growing businesses ready to scale, and enterprises looking to modernize. If you have a problem worth solving, we're the right team to call", link: null },
+  { id: 4, title: "Our Vision", content: "To become the most trusted digital partner in Southeast Asia", link: null },
 ];
 
 const services = [
@@ -26,6 +27,7 @@ const services = [
       "CMS integration so you can update content yourself",
       "Fast load times with optimized assets",
     ],
+    cta: null,
   },
   {
     name: "Web App",
@@ -38,6 +40,7 @@ const services = [
       "REST & GraphQL API integration",
       "CI/CD pipeline and cloud deployment",
     ],
+    cta: null,
   },
   {
     name: "Mobile App",
@@ -50,6 +53,7 @@ const services = [
       "App Store and Play Store submission handled",
       "Ongoing maintenance and updates",
     ],
+    cta: null,
   },
   {
     name: "E-Commerce",
@@ -62,6 +66,27 @@ const services = [
       "Promo codes, discounts, and loyalty features",
       "Sales analytics and reporting dashboard",
     ],
+    cta: null,
+  },
+  {
+    name: "ERP System",
+    icon: "⚙️",
+    desc: "End-to-end enterprise systems that unify your operations, from finance to HR to inventory.",
+    details: [
+      "Modular architecture — build only what you need",
+      "Finance, HR, inventory, and procurement modules",
+      "Role-based access control for your entire team",
+      "Real-time reporting and analytics dashboard",
+      "On-premise or cloud deployment",
+    ],
+    cta: null,
+  },
+  {
+    name: "Custom App",
+    icon: "✦",
+    desc: "Got a unique idea that doesn't fit the mold? Let's talk. We build whatever you can imagine.",
+    details: [],
+    cta: "Let's discuss your idea →",
   },
 ];
 
@@ -70,6 +95,7 @@ export default function HeroSection() {
   const [progress, setProgress] = useState(0);
   const [expandedService, setExpandedService] = useState<string | null>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const servicesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => {
@@ -83,6 +109,10 @@ export default function HeroSection() {
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const scrollToServices = () => {
+    servicesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <>
@@ -99,7 +129,6 @@ export default function HeroSection() {
           display: grid;
           grid-template-columns: 38fr 62fr;
           align-items: start;
-          /* lighter grid background */
           background-color: #f9f9fa;
           background-image:
             linear-gradient(rgba(180,180,195,0.15) 1px, transparent 1px),
@@ -107,7 +136,6 @@ export default function HeroSection() {
           background-size: 40px 40px;
         }
 
-        /* LEFT col */
         .hs-wormhole-col {
           position: relative;
           background: transparent;
@@ -118,7 +146,6 @@ export default function HeroSection() {
           inset: 0;
         }
 
-        /* RIGHT col */
         .hs-text-col {
           position: relative;
           background: transparent;
@@ -133,7 +160,6 @@ export default function HeroSection() {
           gap: 6rem;
         }
 
-        /* ── Intro block with left accent bar ── */
         .hs-intro-block {
           position: relative;
           padding-left: 1.75rem;
@@ -149,7 +175,6 @@ export default function HeroSection() {
           border-radius: 2px;
         }
 
-        /* Location pill */
         .hs-pill {
           display: inline-flex;
           align-items: center;
@@ -191,7 +216,7 @@ export default function HeroSection() {
           max-width: 520px;
         }
 
-        /* ── Accordion ── */
+        /* Accordion */
         .hs-accordion { display: flex; flex-direction: column; margin-top: 3.5rem; }
         .hs-accordion-item { border-bottom: 1px solid rgba(220,0,0,0.12); }
         .hs-accordion-trigger {
@@ -229,7 +254,7 @@ export default function HeroSection() {
         .hs-accordion-body.open { grid-template-rows: 1fr; }
         .hs-accordion-inner { overflow: hidden; }
         .hs-accordion-content {
-          padding: 0 0 1.1rem 0;
+          padding: 0 0 0.6rem 0;
           font-size: 0.875rem;
           color: rgba(160,0,0,0.7);
           line-height: 1.6;
@@ -245,7 +270,36 @@ export default function HeroSection() {
           border-radius: 0 2px 2px 0;
         }
 
-        /* ── Services block — frosted card ── */
+        /* "Our products" inline link */
+        .hs-accordion-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.25rem;
+          margin-bottom: 1.1rem;
+          font-size: 0.8rem;
+          font-weight: 700;
+          color: #dc0000;
+          cursor: pointer;
+          background: none;
+          border: none;
+          padding: 0;
+          letter-spacing: 0.01em;
+          transition: opacity 0.18s;
+          text-decoration: underline;
+          text-underline-offset: 3px;
+          text-decoration-color: rgba(220,0,0,0.3);
+        }
+        .hs-accordion-link:hover {
+          opacity: 0.7;
+        }
+        .hs-accordion-link-arrow {
+          font-size: 0.75rem;
+          line-height: 1;
+          display: inline-block;
+          transform: translateY(-1px);
+        }
+
+        /* Services block */
         .hs-block-divider {
           background: rgba(255,255,255,0.6);
           border-radius: 16px;
@@ -280,7 +334,7 @@ export default function HeroSection() {
           margin-bottom: 2.5rem;
         }
 
-        /* ── Services grid ── */
+        /* Services grid */
         .hs-services-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -353,6 +407,32 @@ export default function HeroSection() {
           flex-shrink: 0;
         }
 
+        .hs-service-card.custom {
+          background: rgba(255,255,255,0.85);
+          cursor: pointer;
+        }
+        .hs-service-card.custom:hover {
+          background: rgba(255,255,255,0.95);
+        }
+        .hs-service-card.custom .hs-service-icon {
+          font-size: 1.2rem;
+          color: #dc0000;
+        }
+        .hs-service-cta {
+          margin-top: 0.5rem;
+          font-size: 0.78rem;
+          font-weight: 700;
+          color: #dc0000;
+          letter-spacing: 0.02em;
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+          transition: gap 0.2s;
+        }
+        .hs-service-card.custom:hover .hs-service-cta {
+          gap: 0.55rem;
+        }
+
         @media (max-width: 900px) {
           .hs-layout { grid-template-columns: 1fr; }
           .hs-wormhole-col { height: 60vh; align-self: auto; }
@@ -360,13 +440,14 @@ export default function HeroSection() {
           .hs-text-inner { padding: 2.5rem 1.5rem; gap: 3rem; }
           .hs-intro-block { padding-left: 1.25rem; }
           .hs-accordion-item.active .hs-accordion-trigger::before { left: -1.25rem; }
-          .hs-services-grid { grid-template-columns: 1fr; }
+          .hs-services-grid { grid-template-columns: 1fr 1fr; }
           .hs-block-divider { padding: 1.75rem; }
         }
         @media (max-width: 480px) {
           .hs-headline { font-size: 1.9rem; }
           .hs-text-inner { padding: 2rem 1.25rem; }
           .hs-block-divider { padding: 1.25rem; border-radius: 12px; }
+          .hs-services-grid { grid-template-columns: 1fr; }
         }
       `}</style>
 
@@ -410,6 +491,11 @@ export default function HeroSection() {
                         <div className={`hs-accordion-body ${isOpen ? "open" : ""}`}>
                           <div className="hs-accordion-inner">
                             <p className="hs-accordion-content">{item.content}</p>
+                            {item.link && (
+                              <button className="hs-accordion-link" onClick={scrollToServices}>
+                                {item.link}
+                              </button>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -419,7 +505,7 @@ export default function HeroSection() {
               </div>
 
               {/* Services block */}
-              <div className="hs-block-divider">
+              <div className="hs-block-divider" ref={servicesRef}>
                 <p className="hs-block-label">Services</p>
                 <h2 className="hs-block-headline">What We Build</h2>
                 <p className="hs-block-body">
@@ -428,6 +514,36 @@ export default function HeroSection() {
                 <div className="hs-services-grid">
                   {services.map((s) => {
                     const isExpanded = expandedService === s.name;
+                    const isCustom = s.cta !== null;
+
+                    if (isCustom) {
+                      return (
+                        <div
+                          className="hs-service-card custom"
+                          key={s.name}
+                          onClick={() => {
+                            const contact = document.getElementById("contact");
+                            if (contact) contact.scrollIntoView({ behavior: "smooth" });
+                          }}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              const contact = document.getElementById("contact");
+                              if (contact) contact.scrollIntoView({ behavior: "smooth" });
+                            }
+                          }}
+                        >
+                          <div className="hs-service-icon">{s.icon}</div>
+                          <div className="hs-service-header">
+                            <div className="hs-service-name">{s.name}</div>
+                          </div>
+                          <div className="hs-service-desc">{s.desc}</div>
+                          <div className="hs-service-cta">{s.cta}</div>
+                        </div>
+                      );
+                    }
+
                     return (
                       <div
                         className={`hs-service-card ${isExpanded ? "expanded" : ""}`}

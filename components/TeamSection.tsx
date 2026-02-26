@@ -5,29 +5,29 @@ import { useEffect, useRef, useState, useCallback } from "react";
 const team = [
   {
     name: "Raja Rafael",
-    role: "CEO",
-    bio: "Visionary leader driving Qleos forward with a passion for innovation, building high-performance teams, and delivering real business impact through technology.",
+    role: "Project Manager",
+    bio: "Keeps every project on track, on time, and on point. The bridge between the team and the client — making sure expectations are clear, communication flows, and nothing gets lost in translation.",
     initials: "RR",
     color: "#dc0000",
   },
   {
     name: "William Alexander",
-    role: "Deputy CEO",
-    bio: "Strategic operator who bridges vision and execution. Ensures every initiative aligns with Qleos mission and delivers measurable results.",
+    role: "Backend Engineer",
+    bio: "Builds the systems you never see but always depend on. Specializes in high-performance APIs, cloud infrastructure, and the kind of architecture that holds up under pressure.",
     initials: "WA",
     color: "#b80000",
   },
   {
     name: "Dave Justin",
-    role: "CTO",
-    bio: "Full-stack engineer turned technology leader. Architects the systems that power Qleos products — scalable, secure, and built to last.",
+    role: "Frontend Engineer",
+    bio: "Crafts the interfaces users actually interact with. Obsessed with performance, accessibility, and making every interaction feel effortless and intentional.",
     initials: "DJ",
     color: "#990000",
   },
   {
     name: "Paima Ishak",
-    role: "COO",
-    bio: "Operations expert who keeps everything running smoothly. From project delivery to client relationships, Paima makes sure nothing falls through the cracks.",
+    role: "UI/UX Designer",
+    bio: "The eye behind every product. Translates business goals into intuitive designs — from early wireframes to polished design systems that developers love to build from.",
     initials: "PI",
     color: "#cc1111",
   },
@@ -286,7 +286,7 @@ function CircuitCanvas({ progress }: CircuitCanvasProps) {
 
     if (energizedCount > 0) {
       // t goes 0→1 looping, maps to position within energized segments
-      const t = (ts * 0.00015) % 1;
+      const t = (ts * 0.0003) % 1;
       const rawIdx = t * energizedCount;
       const segIdx = Math.floor(rawIdx) % energizedCount;
       const segT = rawIdx - Math.floor(rawIdx);
