@@ -9,10 +9,10 @@ const Canvas = dynamic<{ progress: number }>(
 );
 
 const accordionItems = [
-  { id: 1, title: "Who We Are", content: "Qleos is a software house company based in Jakarta. Built by engineers who believe great software should be accessible to every business", link: null },
-  { id: 2, title: "What We Do", content: "We design, build, and maintain digital products end-to-end. From company profile to a full-scale ERP system", link: "Our products ↗" },
-  { id: 3, title: "Who We Serve", content: "Startups finding their footing, growing businesses ready to scale, and enterprises looking to modernize. If you have a problem worth solving, we're the right team to call", link: null },
-  { id: 4, title: "Our Vision", content: "To become the most trusted digital partner in Southeast Asia", link: null },
+  { id: 1, title: "Who We Are", content: "Qleos is a software house company based in Jakarta. Built by engineers who believe great software should be accessible to every business.", link: null },
+  { id: 2, title: "What We Do", content: "We design, build, and maintain digital products end-to-end. From company profile to a full-scale ERP system.", link: "Our products" },
+  { id: 3, title: "Who We Serve", content: "Startups finding their footing, growing businesses ready to scale, and enterprises looking to modernize. If you have a problem worth solving, we're the right team to call.", link: null },
+  { id: 4, title: "Our Vision", content: "To become the most trusted digital partner in Southeast Asia.", link: null },
 ];
 
 const services = [
@@ -338,11 +338,9 @@ export default function HeroSection() {
         .hs-services-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 1px;
-          background: rgba(220,0,0,0.1);
           border: 1px solid rgba(220,0,0,0.1);
           border-radius: 12px;
-          overflow: hidden;
+          overflow: visible;
         }
         .hs-service-card {
           background: rgba(255,255,255,0.85);
@@ -352,7 +350,15 @@ export default function HeroSection() {
           gap: 0.4rem;
           cursor: pointer;
           transition: background 0.2s;
+          border-right: 1px solid rgba(220,0,0,0.1);
+          border-bottom: 1px solid rgba(220,0,0,0.1);
         }
+        .hs-service-card:nth-child(2n) { border-right: none; }
+        .hs-service-card:nth-last-child(-n+2) { border-bottom: none; }
+        .hs-service-card:first-child { border-radius: 12px 0 0 0; }
+        .hs-service-card:nth-child(2) { border-radius: 0 12px 0 0; }
+        .hs-service-card:nth-last-child(1) { border-radius: 0 0 12px 0; }
+        .hs-service-card:nth-last-child(2) { border-radius: 0 0 0 12px; }
         .hs-service-card:hover { background: rgba(255,255,255,0.95); }
         .hs-service-card.expanded { background: rgba(255,255,255,0.95); }
         .hs-service-header {
@@ -376,13 +382,13 @@ export default function HeroSection() {
           line-height: 1.55;
         }
         .hs-service-expand {
-          display: grid;
-          grid-template-rows: 0fr;
-          transition: grid-template-rows 0.3s ease;
+          max-height: 0;
           overflow: hidden;
+          transition: max-height 0.35s ease;
         }
-        .hs-service-expand.open { grid-template-rows: 1fr; }
-        .hs-service-expand-inner { overflow: hidden; }
+        .hs-service-expand.open {
+          max-height: 400px;
+        }
         .hs-service-details {
           list-style: none;
           display: flex;
@@ -494,6 +500,7 @@ export default function HeroSection() {
                             {item.link && (
                               <button className="hs-accordion-link" onClick={scrollToServices}>
                                 {item.link}
+                                <span className="hs-accordion-link-arrow">↗</span>
                               </button>
                             )}
                           </div>
@@ -562,11 +569,9 @@ export default function HeroSection() {
                         </div>
                         <div className="hs-service-desc">{s.desc}</div>
                         <div className={`hs-service-expand ${isExpanded ? "open" : ""}`}>
-                          <div className="hs-service-expand-inner">
                             <ul className="hs-service-details">
                               {s.details.map((d, i) => <li key={i}>{d}</li>)}
                             </ul>
-                          </div>
                         </div>
                       </div>
                     );

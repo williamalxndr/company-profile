@@ -4,14 +4,22 @@ import { useState } from "react";
 import Link from "next/link";
 
 const navLinks = [
-  { label: "About", href: "/about" },
-  { label: "Docs", href: "/docs" },
-  { label: "Blog", href: "/blog" },
+  { label: "About", href: "#about" },
+  { label: "Services", href: "#services" },
+  { label: "Team", href: "#team" },
   { label: "Careers", href: "/careers" },
 ];
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleNavClick = (href: string) => {
+    setMenuOpen(false);
+    if (href.startsWith("#")) {
+      const el = document.getElementById(href.slice(1));
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <>
@@ -46,8 +54,6 @@ export default function Navbar() {
           height: 36px;
         }
 
-        /* DESKTOP LINKS */
-
         .qleos-links {
           display: flex;
           align-items: center;
@@ -57,7 +63,7 @@ export default function Navbar() {
           padding: 0;
         }
 
-        .qleos-links a {
+        .qleos-links a, .qleos-links button {
           position: relative;
           font-size: 0.95rem;
           font-weight: 600;
@@ -67,10 +73,13 @@ export default function Navbar() {
           border-radius: 999px;
           overflow: hidden;
           transition: color 0.3s ease, transform 0.2s ease;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          font-family: 'DM Sans', sans-serif;
         }
 
-        /* Animated red fill */
-        .qleos-links a::before {
+        .qleos-links a::before, .qleos-links button::before {
           content: "";
           position: absolute;
           inset: 0;
@@ -83,17 +92,15 @@ export default function Navbar() {
           z-index: -1;
         }
 
-        .qleos-links a:hover::before {
+        .qleos-links a:hover::before, .qleos-links button:hover::before {
           transform: scaleX(1);
         }
 
-        .qleos-links a:hover {
+        .qleos-links a:hover, .qleos-links button:hover {
           color: #ffffff;
           transform: translateY(-2px);
           box-shadow: 0 8px 22px rgba(220, 0, 0, 0.28);
         }
-
-        /* ACTION BUTTONS */
 
         .qleos-actions {
           display: flex;
@@ -114,6 +121,9 @@ export default function Navbar() {
           text-decoration: none;
           border-radius: 999px;
           transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+          border: none;
+          cursor: pointer;
+          font-family: 'DM Sans', sans-serif;
         }
 
         .qleos-contact-btn:hover {
@@ -147,8 +157,6 @@ export default function Navbar() {
           fill: #fff;
         }
 
-        /* HAMBURGER */
-
         .qleos-hamburger {
           display: none;
           flex-direction: column;
@@ -178,8 +186,6 @@ export default function Navbar() {
           transform: translateY(-7px) rotate(-45deg);
         }
 
-        /* MOBILE */
-
         .qleos-mobile-menu {
           display: none;
           position: fixed;
@@ -189,6 +195,7 @@ export default function Navbar() {
           background: #ffffff;
           padding: 1.8rem 2.5rem;
           border-bottom: 1px solid rgba(220, 0, 0, 0.12);
+          z-index: 99;
         }
 
         .qleos-mobile-menu.open {
@@ -204,14 +211,21 @@ export default function Navbar() {
           gap: 1.2rem;
         }
 
-        .qleos-mobile-links a {
+        .qleos-mobile-links button {
           font-weight: 600;
+          font-size: 1rem;
           text-decoration: none;
           color: #1a1a1a;
           transition: color 0.2s ease;
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-family: 'DM Sans', sans-serif;
+          padding: 0;
+          text-align: left;
         }
 
-        .qleos-mobile-links a:hover {
+        .qleos-mobile-links button:hover {
           color: #dc0000;
         }
 
@@ -241,21 +255,28 @@ export default function Navbar() {
         <ul className="qleos-links">
           {navLinks.map((link) => (
             <li key={link.href}>
-              <Link href={link.href}>{link.label}</Link>
+              {link.href.startsWith("#") ? (
+                <button onClick={() => handleNavClick(link.href)}>{link.label}</button>
+              ) : (
+                <Link href={link.href}>{link.label}</Link>
+              )}
             </li>
           ))}
         </ul>
 
         <div className="qleos-actions">
-          <Link href="/contact" className="qleos-contact-btn">
+          <button
+            className="qleos-contact-btn"
+            onClick={() => handleNavClick("#contact")}
+          >
             Contact
-          </Link>
+          </button>
 
           <button className="qleos-grid-btn">
             <svg viewBox="0 0 16 16">
               {[0,6,12].map(x =>
                 [0,6,12].map(y => (
-                  <rect key={x+y} x={x} y={y} width="4" height="4" rx="1"/>
+                  <rect key={`${x}-${y}`} x={x} y={y} width="4" height="4" rx="1"/>
                 ))
               )}
             </svg>
@@ -274,17 +295,20 @@ export default function Navbar() {
         <ul className="qleos-mobile-links">
           {navLinks.map((link) => (
             <li key={link.href}>
-              <Link href={link.href} onClick={() => setMenuOpen(false)}>
+              <button onClick={() => handleNavClick(link.href)}>
                 {link.label}
-              </Link>
+              </button>
             </li>
           ))}
         </ul>
 
         <div className="qleos-mobile-actions">
-          <Link href="/contact" className="qleos-contact-btn">
+          <button
+            className="qleos-contact-btn"
+            onClick={() => handleNavClick("#contact")}
+          >
             Contact
-          </Link>
+          </button>
         </div>
       </div>
     </>

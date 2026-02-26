@@ -60,6 +60,14 @@ export default function Footer() {
     return () => observer.disconnect();
   }, []);
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith("#")) {
+      e.preventDefault();
+      const el = document.getElementById(href.slice(1));
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <>
       <style>{`
@@ -243,13 +251,13 @@ export default function Footer() {
               <div className="ft-nav-col">
                 <p className="ft-nav-label">Company</p>
                 {navLinks.slice(0, 3).map((l) => (
-                  <a key={l.label} href={l.href} className="ft-nav-link">{l.label}</a>
+                  <a key={l.label} href={l.href} className="ft-nav-link" onClick={(e) => handleNavClick(e, l.href)}>{l.label}</a>
                 ))}
               </div>
               <div className="ft-nav-col">
                 <p className="ft-nav-label">Resources</p>
                 {navLinks.slice(3).map((l) => (
-                  <a key={l.label} href={l.href} className="ft-nav-link">{l.label}</a>
+                  <a key={l.label} href={l.href} className="ft-nav-link" onClick={(e) => handleNavClick(e, l.href)}>{l.label}</a>
                 ))}
               </div>
               <div className="ft-nav-col">
