@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import TeamSection from "@/components/TeamSection";
 import ContactSection from "@/components/ContactSection";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -12,7 +13,7 @@ export default function Home() {
         html, body {
           margin: 0;
           padding: 0;
-          background-color: #000;
+          background-color: #FFF;
         }
         }
 
@@ -91,6 +92,7 @@ export default function Home() {
       <HeroSection />
       <TeamSection />
       <ContactSection />
+      <Footer />
     </>
   );
 }
