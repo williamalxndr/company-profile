@@ -343,7 +343,7 @@ export default function HeroSection() {
           overflow: visible;
         }
         .hs-service-card {
-          background: rgba(255,255,255,0.85);
+          background: #ffffff;
           padding: 1.4rem 1.5rem;
           display: flex;
           flex-direction: column;
@@ -352,6 +352,8 @@ export default function HeroSection() {
           transition: background 0.2s;
           border-right: 1px solid rgba(220,0,0,0.1);
           border-bottom: 1px solid rgba(220,0,0,0.1);
+          position: relative;
+          z-index: 1;
         }
         .hs-service-card:nth-child(2n) { border-right: none; }
         .hs-service-card:nth-last-child(-n+2) { border-bottom: none; }
@@ -359,8 +361,11 @@ export default function HeroSection() {
         .hs-service-card:nth-child(2) { border-radius: 0 12px 0 0; }
         .hs-service-card:nth-last-child(1) { border-radius: 0 0 12px 0; }
         .hs-service-card:nth-last-child(2) { border-radius: 0 0 0 12px; }
-        .hs-service-card:hover { background: rgba(255,255,255,0.95); }
-        .hs-service-card.expanded { background: rgba(255,255,255,0.95); }
+        .hs-service-card:hover { background: #fafafa; }
+        .hs-service-card.expanded {
+          background: #fafafa;
+          z-index: 10;
+        }
         .hs-service-header {
           display: flex;
           align-items: center;
@@ -382,21 +387,32 @@ export default function HeroSection() {
           line-height: 1.55;
         }
         .hs-service-expand {
+          position: absolute;
+          left: -1px;
+          right: -1px;
+          top: 100%;
+          background: #fafafa;
+          border: 1px solid rgba(220,0,0,0.1);
+          border-top: none;
+          border-radius: 0 0 12px 12px;
+          padding: 0 1.5rem;
           max-height: 0;
           overflow: hidden;
-          transition: max-height 0.35s ease;
+          transition: max-height 0.35s ease, padding 0.35s ease;
+          z-index: 20;
+          box-shadow: 0 8px 24px rgba(220,0,0,0.06);
         }
         .hs-service-expand.open {
           max-height: 400px;
+          padding: 0.75rem 1.5rem 1rem;
         }
         .hs-service-details {
           list-style: none;
           display: flex;
           flex-direction: column;
           gap: 0.4rem;
-          padding-top: 0.75rem;
           border-top: 1px solid rgba(220,0,0,0.1);
-          margin-top: 0.5rem;
+          padding-top: 0.75rem;
         }
         .hs-service-details li {
           display: flex;
@@ -414,11 +430,11 @@ export default function HeroSection() {
         }
 
         .hs-service-card.custom {
-          background: rgba(255,255,255,0.85);
+          background: #ffffff;
           cursor: pointer;
         }
         .hs-service-card.custom:hover {
-          background: rgba(255,255,255,0.95);
+          background: #fafafa;
         }
         .hs-service-card.custom .hs-service-icon {
           font-size: 1.2rem;
