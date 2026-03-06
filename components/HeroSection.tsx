@@ -12,7 +12,7 @@ const accordionItems = [
   { id: 1, title: "Who We Are", content: "Qleos is a software house company based in Jakarta. Built by engineers who believe great software should be accessible to every business.", link: null },
   { id: 2, title: "What We Do", content: "We design, build, and maintain digital products end-to-end. From company profile to a full-scale ERP system.", link: "Our products" },
   { id: 3, title: "Who We Serve", content: "Startups finding their footing, growing businesses ready to scale, and enterprises looking to modernize. If you have a problem worth solving, we're the right team to call.", link: null },
-  { id: 4, title: "Our Vision", content: "To become the most trusted digital partner in Southeast Asia.", link: null },
+  { id: 4, title: "Our Vision", content: "To become the most trusted digital partner in Indonesia.", link: null },
 ];
 
 const services = [
@@ -91,11 +91,18 @@ const services = [
 ];
 
 export default function HeroSection() {
-  const [openItem, setOpenItem] = useState<number | null>(1);
+  const [openItem, setOpenItem] = useState<number | null>(null);
   const [progress, setProgress] = useState(0);
   const [expandedService, setExpandedService] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Trigger animations shortly after mount
+    const t = setTimeout(() => setMounted(true), 80);
+    return () => clearTimeout(t);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -120,6 +127,61 @@ export default function HeroSection() {
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,800&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+        /* ─── Entrance animation keyframes ─── */
+        @keyframes hs-fade-up {
+          from { opacity: 0; transform: translateY(28px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes hs-fade-in {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+        @keyframes hs-slide-right {
+          from { opacity: 0; transform: translateX(-18px); }
+          to   { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes hs-scale-in {
+          from { opacity: 0; transform: scale(0.96) translateY(12px); }
+          to   { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* Base invisible state — overridden by .hs-visible via animation */
+        .hs-anim {
+          opacity: 0;
+        }
+        .hs-anim.hs-visible {
+          animation-fill-mode: both;
+          animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+          animation-duration: 0.75s;
+        }
+
+        /* Variants */
+        .hs-anim-fade-up.hs-visible   { animation-name: hs-fade-up; }
+        .hs-anim-fade-in.hs-visible   { animation-name: hs-fade-in; animation-duration: 0.6s; }
+        .hs-anim-slide-r.hs-visible   { animation-name: hs-slide-right; }
+        .hs-anim-scale-in.hs-visible  { animation-name: hs-scale-in; animation-duration: 0.8s; }
+
+        /* Stagger delays */
+        .hs-d0  { animation-delay: 0ms; }
+        .hs-d1  { animation-delay: 100ms; }
+        .hs-d2  { animation-delay: 200ms; }
+        .hs-d3  { animation-delay: 320ms; }
+        .hs-d4  { animation-delay: 440ms; }
+        .hs-d5  { animation-delay: 560ms; }
+        .hs-d6  { animation-delay: 680ms; }
+        .hs-d7  { animation-delay: 800ms; }
+        .hs-d8  { animation-delay: 900ms; }
+
+        /* Red accent bar animates width */
+        @keyframes hs-bar-grow {
+          from { transform: scaleY(0); transform-origin: top; opacity: 0; }
+          to   { transform: scaleY(1); transform-origin: top; opacity: 1; }
+        }
+        .hs-intro-block.hs-visible::before {
+          animation: hs-bar-grow 0.6s cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
+        }
+
+        /* ─── Layout ─── */
         .hs-section {
           font-family: 'DM Sans', sans-serif;
           position: relative;
@@ -289,9 +351,7 @@ export default function HeroSection() {
           text-underline-offset: 3px;
           text-decoration-color: rgba(220,0,0,0.3);
         }
-        .hs-accordion-link:hover {
-          opacity: 0.7;
-        }
+        .hs-accordion-link:hover { opacity: 0.7; }
         .hs-accordion-link-arrow {
           font-size: 0.75rem;
           line-height: 1;
@@ -362,10 +422,7 @@ export default function HeroSection() {
         .hs-service-card:nth-last-child(1) { border-radius: 0 0 12px 0; }
         .hs-service-card:nth-last-child(2) { border-radius: 0 0 0 12px; }
         .hs-service-card:hover { background: #fafafa; }
-        .hs-service-card.expanded {
-          background: #fafafa;
-          z-index: 10;
-        }
+        .hs-service-card.expanded { background: #fafafa; z-index: 10; }
         .hs-service-header {
           display: flex;
           align-items: center;
@@ -388,8 +445,7 @@ export default function HeroSection() {
         }
         .hs-service-expand {
           position: absolute;
-          left: -1px;
-          right: -1px;
+          left: -1px; right: -1px;
           top: 100%;
           background: #fafafa;
           border: 1px solid rgba(220,0,0,0.1);
@@ -428,18 +484,9 @@ export default function HeroSection() {
           font-weight: 700;
           flex-shrink: 0;
         }
-
-        .hs-service-card.custom {
-          background: #ffffff;
-          cursor: pointer;
-        }
-        .hs-service-card.custom:hover {
-          background: #fafafa;
-        }
-        .hs-service-card.custom .hs-service-icon {
-          font-size: 1.2rem;
-          color: #dc0000;
-        }
+        .hs-service-card.custom { background: #ffffff; cursor: pointer; }
+        .hs-service-card.custom:hover { background: #fafafa; }
+        .hs-service-card.custom .hs-service-icon { font-size: 1.2rem; color: #dc0000; }
         .hs-service-cta {
           margin-top: 0.5rem;
           font-size: 0.78rem;
@@ -451,9 +498,7 @@ export default function HeroSection() {
           gap: 0.3rem;
           transition: gap 0.2s;
         }
-        .hs-service-card.custom:hover .hs-service-cta {
-          gap: 0.55rem;
-        }
+        .hs-service-card.custom:hover .hs-service-cta { gap: 0.55rem; }
 
         @media (max-width: 900px) {
           .hs-layout { grid-template-columns: 1fr; }
@@ -470,6 +515,13 @@ export default function HeroSection() {
           .hs-text-inner { padding: 2rem 1.25rem; }
           .hs-block-divider { padding: 1.25rem; border-radius: 12px; }
           .hs-services-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Respect reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+          .hs-anim { opacity: 1 !important; }
+          .hs-anim.hs-visible { animation: none !important; }
+          .hs-intro-block.hs-visible::before { animation: none !important; }
         }
       `}</style>
 
@@ -488,18 +540,27 @@ export default function HeroSection() {
             <div className="hs-text-inner">
 
               {/* Intro block */}
-              <div className="hs-intro-block">
-                <div className="hs-pill">
+              <div className={`hs-intro-block${mounted ? " hs-visible" : ""}`}>
+                {/* Pill */}
+                <div className={`hs-pill hs-anim hs-anim-fade-in hs-d0${mounted ? " hs-visible" : ""}`}>
                   <span className="hs-pill-dot" />
                   Jakarta, Indonesia
                 </div>
-                <h1 className="hs-headline">The Full Stack Digital Partner</h1>
-                <p className="hs-subtext">
+
+                {/* Headline */}
+                <h1 className={`hs-headline hs-anim hs-anim-fade-up hs-d1${mounted ? " hs-visible" : ""}`}>
+                  The Full Stack Digital Partner
+                </h1>
+
+                {/* Subtext */}
+                <p className={`hs-subtext hs-anim hs-anim-fade-up hs-d2${mounted ? " hs-visible" : ""}`}>
                   Qleos brings together expert software engineering, web development,
                   and reliable hosting to build, launch, and scale your digital presence.
                   We are your partner from concept to completion.
                 </p>
-                <div className="hs-accordion">
+
+                {/* Accordion */}
+                <div className={`hs-accordion hs-anim hs-anim-fade-up hs-d3${mounted ? " hs-visible" : ""}`}>
                   {accordionItems.map((item) => {
                     const isOpen = openItem === item.id;
                     return (
@@ -528,13 +589,13 @@ export default function HeroSection() {
               </div>
 
               {/* Services block */}
-              <div className="hs-block-divider" ref={servicesRef}>
-                <p className="hs-block-label">Services</p>
-                <h2 className="hs-block-headline">What We Build</h2>
-                <p className="hs-block-body">
+              <div className={`hs-block-divider hs-anim hs-anim-scale-in hs-d5${mounted ? " hs-visible" : ""}`} ref={servicesRef}>
+                <p className={`hs-block-label hs-anim hs-anim-fade-in hs-d6${mounted ? " hs-visible" : ""}`}>Services</p>
+                <h2 className={`hs-block-headline hs-anim hs-anim-fade-up hs-d6${mounted ? " hs-visible" : ""}`}>What We Build</h2>
+                <p className={`hs-block-body hs-anim hs-anim-fade-up hs-d7${mounted ? " hs-visible" : ""}`}>
                   From company profiles to ERP systems — we cover the full spectrum of digital products your business needs.
                 </p>
-                <div className="hs-services-grid">
+                <div className={`hs-services-grid hs-anim hs-anim-fade-up hs-d8${mounted ? " hs-visible" : ""}`}>
                   {services.map((s) => {
                     const isExpanded = expandedService === s.name;
                     const isCustom = s.cta !== null;
@@ -585,9 +646,9 @@ export default function HeroSection() {
                         </div>
                         <div className="hs-service-desc">{s.desc}</div>
                         <div className={`hs-service-expand ${isExpanded ? "open" : ""}`}>
-                            <ul className="hs-service-details">
-                              {s.details.map((d, i) => <li key={i}>{d}</li>)}
-                            </ul>
+                          <ul className="hs-service-details">
+                            {s.details.map((d, i) => <li key={i}>{d}</li>)}
+                          </ul>
                         </div>
                       </div>
                     );
