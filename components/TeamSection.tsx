@@ -490,14 +490,16 @@ function TeamCard({ member, index }: { member: typeof team[0]; index: number }) 
         transitionDelay: `${index * 0.1}s`,
       }}
     >
-      <div className="tm-avatar" style={{ background: member.color }}>
-        <img src={member.image} alt={member.name} />
+      <div className="tm-header-row">
+        <div className="tm-avatar" style={{ background: member.color }}>
+          <img src={member.image} alt={member.name} />
+        </div>
+        <div className="tm-header-text">
+          <h3 className="tm-name">{member.name}</h3>
+          <p className="tm-role">{member.role}</p>
+        </div>
       </div>
-      <div className="tm-info">
-        <h3 className="tm-name">{member.name}</h3>
-        <p className="tm-role">{member.role}</p>
-        <p className="tm-bio">{member.bio}</p>
-      </div>
+      <p className="tm-bio">{member.bio}</p>
     </div>
   );
 }
@@ -632,7 +634,7 @@ export default function TeamSection() {
 
         .tm-avatar {
           width: 80px;
-          height: 95px;
+          height: 105px;
           border-radius: 14px;
           display: flex;
           align-items: center;
@@ -649,7 +651,13 @@ export default function TeamSection() {
           object-position: center top;
         }
 
-        .tm-info {
+        .tm-header-row {
+          display: flex;
+          align-items: center;
+          gap: 1.25rem;
+        }
+
+        .tm-header-text {
           display: flex;
           flex-direction: column;
           gap: 0.25rem;
