@@ -9,6 +9,7 @@ const team = [
     bio: "Keeps every project on track, on time, and on point. The bridge between the team and the client — making sure expectations are clear, communication flows, and nothing gets lost in translation.",
     initials: "RR",
     color: "#dc0000",
+    image: "/team/raja.png",
   },
   {
     name: "William Alexander",
@@ -16,6 +17,7 @@ const team = [
     bio: "Builds the systems you never see but always depend on. Specializes in high-performance APIs, cloud infrastructure, and the kind of architecture that holds up under pressure.",
     initials: "WA",
     color: "#b80000",
+    image: "/team/william.png",
   },
   {
     name: "Dave Justin",
@@ -23,6 +25,7 @@ const team = [
     bio: "Crafts the interfaces users actually interact with. Obsessed with performance, accessibility, and making every interaction feel effortless and intentional.",
     initials: "DJ",
     color: "#990000",
+    image: "/team/dave.png",
   },
   {
     name: "Paima Ishak",
@@ -30,6 +33,7 @@ const team = [
     bio: "The eye behind every product. Translates business goals into intuitive designs — from early wireframes to polished design systems that developers love to build from.",
     initials: "PI",
     color: "#cc1111",
+    image: "/team/paim.png",
   },
 ];
 
@@ -487,7 +491,7 @@ function TeamCard({ member, index }: { member: typeof team[0]; index: number }) 
       }}
     >
       <div className="tm-avatar" style={{ background: member.color }}>
-        {member.initials}
+        <img src={member.image} alt={member.name} />
       </div>
       <div className="tm-info">
         <h3 className="tm-name">{member.name}</h3>
@@ -627,17 +631,22 @@ export default function TeamSection() {
         }
 
         .tm-avatar {
-          width: 56px;
-          height: 56px;
+          width: 80px;
+          height: 95px;
           border-radius: 14px;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 1rem;
-          font-weight: 800;
-          color: #fff;
-          letter-spacing: 0.02em;
           flex-shrink: 0;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .tm-avatar img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center top;
         }
 
         .tm-info {
