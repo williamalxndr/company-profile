@@ -6,6 +6,7 @@ const navLinks = [
   { label: "About", href: "#about" },
   { label: "Services", href: "#services" },
   { label: "Team", href: "#team" },
+  { label: "Portfolio", href: "#portfolio" },
   { label: "Docs", href: "/docs" },
   { label: "Blog", href: "/blog" },
 ];
@@ -249,13 +250,13 @@ export default function Footer() {
             <nav className="ft-nav">
               <div className="ft-nav-col">
                 <p className="ft-nav-label">Company</p>
-                {navLinks.slice(0, 3).map((l) => (
+                {navLinks.slice(0, 4).map((l) => (
                   <a key={l.label} href={l.href} className="ft-nav-link" onClick={(e) => handleNavClick(e, l.href)}>{l.label}</a>
                 ))}
               </div>
               <div className="ft-nav-col">
                 <p className="ft-nav-label">Resources</p>
-                {navLinks.slice(3).map((l) => (
+                {navLinks.slice(4).map((l) => (
                   <a key={l.label} href={l.href} className="ft-nav-link" onClick={(e) => handleNavClick(e, l.href)}>{l.label}</a>
                 ))}
               </div>

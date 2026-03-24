@@ -589,7 +589,7 @@ export default function HeroSection() {
               </div>
 
               {/* Services block */}
-              <div className={`hs-block-divider hs-anim hs-anim-scale-in hs-d5${mounted ? " hs-visible" : ""}`} ref={servicesRef}>
+              <div id="services" className={`hs-block-divider hs-anim hs-anim-scale-in hs-d5${mounted ? " hs-visible" : ""}`} ref={servicesRef}>
                 <p className={`hs-block-label hs-anim hs-anim-fade-in hs-d6${mounted ? " hs-visible" : ""}`}>Services</p>
                 <h2 className={`hs-block-headline hs-anim hs-anim-fade-up hs-d6${mounted ? " hs-visible" : ""}`}>What We Build</h2>
                 <p className={`hs-block-body hs-anim hs-anim-fade-up hs-d7${mounted ? " hs-visible" : ""}`}>
