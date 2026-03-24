@@ -47,12 +47,24 @@ function PortfolioCard({
         transitionDelay: `${index * 0.1}s`,
       }}
     >
-      <div className="pf-logo-wrap">
-        <img src={item.logo} alt={`${item.name} logo`} className="pf-logo" />
+      {item.logo ? (
+        <div className="pf-image-wrap">
+          <img src={item.logo} alt={`${item.name} preview`} className="pf-image" />
+        </div>
+      ) : (
+        <div className="pf-image-wrap"></div>
+      )}
+      <div className="pf-content-wrap">
+        <span className="pf-category">{item.category}</span>
+        <h3 className="pf-name">{item.name}</h3>
+        <p className="pf-desc">{item.desc}</p>
+        
+        <div className="pf-btn">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </div>
       </div>
-      <span className="pf-category">{item.category}</span>
-      <p className="pf-name">{item.name}</p>
-      <p className="pf-desc">{item.desc}</p>
     </a>
   );
 }
@@ -84,9 +96,22 @@ export default function PortfolioSection() {
         .pf-section {
           font-family: 'DM Sans', sans-serif;
           position: relative;
-          background: #ffffff;
-          padding: 5rem 4.5rem;
+          background: #f4fdff;
+          padding: 8rem 4.5rem;
           overflow: hidden;
+        }
+
+        .pf-section::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: 
+            radial-gradient(1200px circle at 0% 0%, rgba(132, 235, 186, 0.25) 0%, transparent 60%),
+            radial-gradient(1400px circle at 100% 100%, rgba(150, 220, 255, 0.25) 0%, transparent 60%),
+            radial-gradient(1000px circle at 100% 0%, rgba(255, 255, 255, 0.8) 0%, transparent 60%),
+            radial-gradient(1200px circle at 0% 100%, rgba(255, 245, 200, 0.2) 0%, transparent 60%);
+          z-index: 0;
+          pointer-events: none;
         }
 
         .pf-content {
@@ -97,7 +122,7 @@ export default function PortfolioSection() {
         }
 
         .pf-header {
-          margin-bottom: 2.5rem;
+          margin-bottom: 4rem;
         }
 
         .pf-label {
@@ -118,49 +143,72 @@ export default function PortfolioSection() {
         }
 
         .pf-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 1.5rem;
+          display: flex;
+          overflow-x: auto;
+          overflow-y: hidden;
+          scroll-snap-type: x mandatory;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          gap: 0;
+          border: 1px solid rgba(26, 26, 26, 0.2);
+          border-radius: 20px;
+        }
+        
+        .pf-grid::-webkit-scrollbar {
+          display: none;
         }
 
         .pf-card {
-          background: rgba(255, 255, 255, 0.92);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(220, 0, 0, 0.1);
-          border-radius: 12px;
-          padding: 1.5rem;
+          background: transparent;
+          flex: 0 0 calc(100% / 3.5);
+          scroll-snap-align: start;
+          border-right: 1px solid rgba(26, 26, 26, 0.2);
           display: flex;
           flex-direction: column;
-          align-items: flex-start;
+          align-items: stretch;
           text-align: left;
           gap: 0;
           text-decoration: none;
-          transition:
-            opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-            transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-            box-shadow 0.25s ease,
-            border-color 0.25s ease;
+          min-height: 420px;
+          transition: background 0.4s ease;
+        }
+
+        .pf-card:last-child {
+          border-right: none;
         }
 
         a.pf-card:hover {
-          box-shadow: 0 8px 32px rgba(220, 0, 0, 0.1);
-          border-color: rgba(220, 0, 0, 0.25);
-          transform: translateY(-3px) !important;
+          background: rgba(255, 255, 255, 0.5);
         }
 
-        .pf-logo-wrap {
-          height: 48px;
+        .pf-image-wrap {
+          width: 100%;
+          aspect-ratio: 16 / 10;
+          background: rgba(26, 26, 26, 0.03);
+          border-bottom: 1px solid rgba(26, 26, 26, 0.2);
+          overflow: hidden;
           display: flex;
           align-items: center;
-          justify-content: flex-start;
-          margin-bottom: 1.25rem;
+          justify-content: center;
+          padding: 1.5rem;
         }
 
-        .pf-logo {
-          max-height: 48px;
-          max-width: 120px;
+        .pf-image {
+          width: 100%;
+          height: 100%;
           object-fit: contain;
+          transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        a.pf-card:hover .pf-image {
+          transform: scale(1.05);
+        }
+        
+        .pf-content-wrap {
+          padding: 3.5rem 2.5rem;
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
         }
 
         .pf-category {
@@ -169,22 +217,43 @@ export default function PortfolioSection() {
           letter-spacing: 0.05em;
           text-transform: uppercase;
           color: #dc0000;
-          margin-bottom: 0.4rem;
+          margin-bottom: 0.75rem;
         }
 
         .pf-name {
-          font-size: 1.1rem;
+          font-size: 1.4rem;
           font-weight: 700;
           color: #1a1a1a;
-          margin: 0 0 0.5rem 0;
+          margin: 0 0 0.75rem 0;
           line-height: 1.3;
+          letter-spacing: normal;
         }
 
         .pf-desc {
-          font-size: 0.85rem;
+          font-size: 0.95rem;
           color: rgba(26, 26, 26, 0.65);
-          line-height: 1.5;
-          margin: 0;
+          line-height: 1.6;
+          margin: 0 0 2.5rem 0;
+        }
+
+        .pf-btn {
+          margin-top: auto;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 48px;
+          height: 48px;
+          border: 1px solid rgba(220, 0, 0, 0.2);
+          border-radius: 50%;
+          color: #dc0000;
+          background: transparent;
+          transition: background 0.2s ease, color 0.2s ease, transform 0.25s ease;
+        }
+
+        a.pf-card:hover .pf-btn {
+          background: #dc0000;
+          color: #ffffff;
+          transform: scale(1.1);
         }
 
         /* Empty slot */
@@ -212,14 +281,20 @@ export default function PortfolioSection() {
           color: rgba(220, 0, 0, 0.2);
         }
 
+        @media (max-width: 1024px) {
+          .pf-card { flex: 0 0 50%; }
+        }
+
         @media (max-width: 900px) {
           .pf-section { padding: 4rem 2rem; }
-          .pf-grid { grid-template-columns: repeat(3, 1fr); }
+          .pf-card { flex: 0 0 65%; }
+          .pf-content-wrap { padding: 3rem 1.75rem; }
         }
 
         @media (max-width: 560px) {
           .pf-section { padding: 3.5rem 1.25rem; }
-          .pf-grid { grid-template-columns: repeat(2, 1fr); }
+          .pf-card { flex: 0 0 85%; }
+          .pf-content-wrap { padding: 2rem 1.25rem; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -235,13 +310,13 @@ export default function PortfolioSection() {
         <div className="pf-content">
           <div className="pf-header">
             <p className="pf-label">Portfolio</p>
-            <h2 className="pf-headline">Our Work</h2>
+            <h2 className="pf-headline">Our Past Projects</h2>
           </div>
 
           <div className="pf-grid">
             {portfolioItems.map((item, i) => (
               <PortfolioCard
-                key={item.name}
+                key={`${item.name}-${i}`}
                 item={item}
                 index={i}
                 visible={visible}
