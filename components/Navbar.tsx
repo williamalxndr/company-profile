@@ -132,31 +132,6 @@ export default function Navbar() {
           box-shadow: 0 8px 22px rgba(220, 0, 0, 0.35);
         }
 
-        .qleos-grid-btn {
-          width: 46px;
-          height: 46px;
-          background: #dc0000;
-          border: none;
-          border-radius: 12px;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
-        }
-
-        .qleos-grid-btn:hover {
-          background: #b80000;
-          transform: translateY(-2px);
-          box-shadow: 0 8px 22px rgba(220, 0, 0, 0.35);
-        }
-
-        .qleos-grid-btn svg {
-          width: 18px;
-          height: 18px;
-          fill: #fff;
-        }
-
         .qleos-hamburger {
           display: none;
           flex-direction: column;
@@ -270,16 +245,6 @@ export default function Navbar() {
             onClick={() => handleNavClick("#contact")}
           >
             Contact
-          </button>
-
-          <button className="qleos-grid-btn">
-            <svg viewBox="0 0 16 16">
-              {[0,6,12].map(x =>
-                [0,6,12].map(y => (
-                  <rect key={`${x}-${y}`} x={x} y={y} width="4" height="4" rx="1"/>
-                ))
-              )}
-            </svg>
           </button>
 
           <button
