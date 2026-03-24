@@ -204,7 +204,7 @@ interface CircuitCanvasProps {
   progress: number; // 0..1 scroll progress within the section
 }
 
-function CircuitCanvas({ progress }: CircuitCanvasProps) {
+export function CircuitCanvas({ progress }: CircuitCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animRef = useRef<number>(0);
   const timeRef = useRef(0);
@@ -508,26 +508,6 @@ function TeamCard({ member, index }: { member: typeof team[0]; index: number }) 
 // Main section
 // ─────────────────────────────────────────────
 export default function TeamSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
-
-  useEffect(() => {
-    const onScroll = () => {
-      const el = sectionRef.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const viewH = window.innerHeight;
-      // Start animating 1 full viewport BEFORE section enters screen
-      // so animation is already running when user scrolls into view
-      const total = el.offsetHeight + viewH * 2;
-      const gone = viewH * 2 - rect.top;
-      setScrollProgress(Math.max(0, Math.min(1, gone / total)));
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
     <>
       <style>{`
@@ -535,11 +515,10 @@ export default function TeamSection() {
 
         .tm-section {
           font-family: 'DM Sans', sans-serif;
-          background: #fff;
+          background: transparent;
           border-top: 1px solid rgba(220,0,0,0.12);
           padding: 7rem 4.5rem;
           position: relative;
-          overflow: hidden;
           isolation: isolate;
         }
 
@@ -690,12 +669,7 @@ export default function TeamSection() {
         }
       `}</style>
 
-      <section className="tm-section" id="team" ref={sectionRef}>
-        {/* Circuit canvas */}
-        <div className="tm-canvas-wrap">
-          <CircuitCanvas progress={scrollProgress} />
-        </div>
-
+      <section className="tm-section" id="team">
         <div className="tm-content">
           <div className="tm-header">
             <p className="tm-label">Team</p>

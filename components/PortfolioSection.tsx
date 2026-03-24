@@ -58,7 +58,7 @@ function PortfolioCard({
         <span className="pf-category">{item.category}</span>
         <h3 className="pf-name">{item.name}</h3>
         <p className="pf-desc">{item.desc}</p>
-        
+
         <div className="pf-btn">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5">
             <path d="M5 12h14M12 5l7 7-7 7" />
@@ -96,23 +96,12 @@ export default function PortfolioSection() {
         .pf-section {
           font-family: 'DM Sans', sans-serif;
           position: relative;
-          background: #f4fdff;
+          background: transparent;
           padding: 8rem 4.5rem;
           overflow: hidden;
         }
 
-        .pf-section::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: 
-            radial-gradient(1200px circle at 0% 0%, rgba(132, 235, 186, 0.25) 0%, transparent 60%),
-            radial-gradient(1400px circle at 100% 100%, rgba(150, 220, 255, 0.25) 0%, transparent 60%),
-            radial-gradient(1000px circle at 100% 0%, rgba(255, 255, 255, 0.8) 0%, transparent 60%),
-            radial-gradient(1200px circle at 0% 100%, rgba(255, 245, 200, 0.2) 0%, transparent 60%);
-          z-index: 0;
-          pointer-events: none;
-        }
+        /* Mesh gradient previously here is removed, allowing parent CircuitCanvas to handle the global background */
 
         .pf-content {
           position: relative;
@@ -135,14 +124,16 @@ export default function PortfolioSection() {
         }
 
         .pf-headline {
-          font-size: clamp(2rem, 4vw, 3rem);
+          font-size: clamp(3.5rem, 5.5vw, 5rem);
           font-weight: 800;
           line-height: 1.1;
           color: #dc0000;
           letter-spacing: -0.03em;
+          max-width: 100%;
         }
 
         .pf-grid {
+          background: #ffffff;
           display: flex;
           overflow-x: auto;
           overflow-y: hidden;
@@ -150,7 +141,7 @@ export default function PortfolioSection() {
           -webkit-overflow-scrolling: touch;
           scrollbar-width: none;
           gap: 0;
-          border: 1px solid rgba(26, 26, 26, 0.2);
+          border: 2px solid #dc0000;
           border-radius: 20px;
         }
         
@@ -159,10 +150,10 @@ export default function PortfolioSection() {
         }
 
         .pf-card {
-          background: transparent;
+          background: #ffffff;
           flex: 0 0 calc(100% / 3.5);
           scroll-snap-align: start;
-          border-right: 1px solid rgba(26, 26, 26, 0.2);
+          border-right: 2px solid #dc0000;
           display: flex;
           flex-direction: column;
           align-items: stretch;
@@ -170,22 +161,22 @@ export default function PortfolioSection() {
           gap: 0;
           text-decoration: none;
           min-height: 420px;
-          transition: background 0.4s ease;
+          cursor: pointer;
+          transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
 
-        .pf-card:last-child {
-          border-right: none;
-        }
+
 
         a.pf-card:hover {
-          background: rgba(255, 255, 255, 0.5);
+          transform: translateY(-4px) !important;
+          box-shadow: 0 12px 36px rgba(220, 0, 0, 0.05);
         }
 
         .pf-image-wrap {
           width: 100%;
           aspect-ratio: 16 / 10;
           background: rgba(26, 26, 26, 0.03);
-          border-bottom: 1px solid rgba(26, 26, 26, 0.2);
+          border-bottom: 2px solid #dc0000;
           overflow: hidden;
           display: flex;
           align-items: center;

@@ -1,13 +1,32 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import TeamSection from "@/components/TeamSection";
+import TeamSection, { CircuitCanvas } from "@/components/TeamSection";
 import ContactSection from "@/components/ContactSection";
 import PortfolioSection from "@/components/PortfolioSection";
 import Footer from "@/components/Footer";
 
 export default function Home() {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const el = wrapperRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const viewH = window.innerHeight;
+      const total = el.offsetHeight + viewH * 2;
+      const gone = viewH * 2 - rect.top;
+      setScrollProgress(Math.max(0, Math.min(1, gone / total)));
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <>
       <style jsx global>{`
@@ -91,8 +110,16 @@ export default function Home() {
       {/* Main Content */}
       <Navbar />
       <HeroSection />
-      <TeamSection />
-      <PortfolioSection />
+
+      <div ref={wrapperRef} className="circuit-wrapper" style={{ position: 'relative', background: '#fff', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none', opacity: 0.55 }}>
+          <CircuitCanvas progress={scrollProgress} />
+        </div>
+        <div style={{ position: 'relative', zIndex: 2 }}>
+          <TeamSection />
+          <PortfolioSection />
+        </div>
+      </div>
       <ContactSection />
       <Footer />
     </>
